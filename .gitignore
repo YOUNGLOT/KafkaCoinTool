@@ -1,0 +1,4 @@
+# Project exclude paths
+/src/main/java/com/kafka/
+/src/main/java/com/kafka/producer/
+/target/

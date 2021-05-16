@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javax.security.auth.login.Configuration?>
+<?import java.io.Console?>
+<Configuration>
+    <Appenders>
+        <!-- 변수 Setting (경로/파일명) -->
+        <property name="LOG_DIR" value="/work/logs"/>
+        <property name="LOG_PATH_NAME" value="${LOG_DIR}/hydrak"/>
+
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+
+        <!-- Rolling File Appender -->
+        <RollingFile name="RollingFile">
+            <FileName>${LOG_PATH_NAME}.log</FileName>
+            <FilePattern>${LOG_PATH_NAME}_%d{yyMMdd}.log</FilePattern>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MMM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+            <DefaultRolloverStrategy max="60" />
+        </RollingFile>
+
+    </Appenders>
+    <Loggers>
+        <logger name="jdbc.resultset" level="OFF"/>
+        <logger name="jdbc.audit" level="OFF"/>
+        <logger name="jdbc.sqltiming" level="OFF"/>
+        <logger name="org.mybatis.spring.SqlSessionUtils" level="OFF"/>
+        <logger name="org.apache.zookeeper" level="OFF"/>
+        <logger name="org.springframework" level="OFF"/>
+        <logger name="org.apache.kafka" level="OFF"/>
+
+        <logger name="com.rwk.fw.common" level="OFF"/>
+        <logger name="org.mybatis.spring.transaction.SpringManagedTransaction" level="OFF"/>
+
+        <Logger name="com.rwk.hydrak.log4j2" level="debug" additivity="false">
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="Console" />
+        </Logger>
+        <Root level="trace">
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
+</Configuration>
